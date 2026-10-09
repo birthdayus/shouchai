@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="收齊佢">
+<meta name="theme-color" content="#0f1115">
+<title>收齊佢 · PC 收藏簿</title>
+<style>
+:root{--bg:#f4f5f7;--surface:#fff;--surface2:#eef0f3;--text:#14161a;--muted:#6b7280;--line:#e2e5ea;--accent:#2F7DE1;--ok:#16a34a;--shadow:0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(0,0,0,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1115;--surface:#181b21;--surface2:#232731;--text:#eef0f3;--muted:#9aa1ad;--line:#2b3039;--shadow:none}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang HK","Noto Sans TC","Microsoft JhengHei",sans-serif;font-size:16px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+input,textarea{font-size:16px}
+.wrap{max-width:880px;margin:0 auto;padding:16px 16px 120px;padding-top:max(16px,env(safe-area-inset-top))}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.top h1{font-size:20px;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo{flex:1;font-size:22px;font-weight:800}
+.logo small{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;font-size:20px;flex:none}
+.btn{border:0;border-radius:12px;padding:12px 16px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+.btn.sec{background:var(--surface2);color:var(--text)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.danger{background:transparent;color:#dc2626;border:1px solid rgba(220,38,38,.35)}
+.btn.block{display:block;width:100%;text-align:center;text-decoration:none}
+.btn.sm{padding:8px 12px;font-size:14px}
+.muted{color:var(--muted)}.sm{font-size:13px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+.hero h2{margin:0 0 4px;font-size:22px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.games{display:grid;gap:10px;margin-top:16px}
+.gbtn{text-align:left;border:1px solid var(--line);border-left:5px solid var(--accent);background:var(--bg);border-radius:14px;padding:14px 16px;cursor:pointer}
+.gbtn b{display:block;font-size:17px}.gbtn span{font-size:13px;color:var(--muted)}
+.blist{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.btile{text-align:left;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:16px;padding:16px;cursor:pointer;box-shadow:var(--shadow)}
+.bname{font-size:20px;font-weight:800;margin:10px 0 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+.bar.big{height:12px;margin:6px 0 16px}
+.pct{font-size:64px;font-weight:900;line-height:1;margin-top:14px;letter-spacing:-2px}
+.pct small{font-size:28px;letter-spacing:0;margin-left:2px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.stats b{display:block;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stats span{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:6px;margin:18px 0 12px}
+.tabs button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:14px}
+.tabs button.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.ctile{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px;cursor:pointer;min-width:0}
+.ph{position:relative;aspect-ratio:63/88;border-radius:9px;background:var(--surface2);overflow:hidden;display:grid;place-items:center}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph span{font-weight:800;font-size:18px;color:var(--muted);padding:6px;text-align:center;word-break:break-all}
+.ctile.want .ph img{filter:grayscale(1);opacity:.45}
+.ctile.want .ph{outline:2px dashed var(--line);outline-offset:-2px}
+.badge{position:absolute;left:6px;top:6px;font-style:normal;font-size:11px;font-weight:700;padding:3px 7px;border-radius:99px;background:rgba(0,0,0,.6);color:#fff}
+.badge.ok{background:var(--ok)}
+.cn{font-weight:700;font-size:14px;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:17px}
+.fab{position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom));border:0;border-radius:999px;padding:15px 22px;background:var(--accent);color:#fff;font-weight:700;font-size:16px;box-shadow:0 8px 24px rgba(0,0,0,.25);cursor:pointer;z-index:10}
+.empty-grid{text-align:center;padding:40px 16px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:16px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.ov.on{display:flex}
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+@media (min-width:700px){.ov{align-items:center}.sheet{border-radius:20px;padding:24px}}
+.sheet h3{margin:0 0 14px;font-size:20px}
+.f{display:block;margin-bottom:12px}
+.f>span{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}
+.f input[type=text],.f input:not([type]),.f textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);outline:none}
+.f input:focus,.f textarea:focus{border-color:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:14px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:12px}
+.seg button{border:0;background:transparent;padding:9px;border-radius:9px;font-weight:600;cursor:pointer}
+.seg button.on{background:var(--surface);box-shadow:var(--shadow)}
+.photo{height:150px;border:2px dashed var(--line);border-radius:14px;display:grid;place-items:center;margin-bottom:12px;cursor:pointer;overflow:hidden;color:var(--muted)}
+.photo img{height:100%;width:auto}
+details{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:12px}
+summary{cursor:pointer;font-weight:600;font-size:14px}
+details[open] summary{margin-bottom:10px}
+.chk{display:inline-flex;align-items:center;gap:6px;margin:0 16px 12px 0}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.actions{display:grid;gap:8px;margin-top:6px}
+.shareimg{width:100%;border-radius:14px;display:block;margin-bottom:12px}
+.toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%) translateY(-20px);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.note{font-size:13px;color:var(--muted);background:var(--surface2);border-radius:12px;padding:12px;margin:12px 0}
+.prolist{margin:8px 0 16px;padding-left:20px}.prolist li{margin:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="ov" id="ov" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ===== 設定：上線前改呢度 ===== */
+const CONFIG = {
+  PRO_URL: 'https://example.gumroad.com/l/shouchai-pro', // 換成你嘅 Gumroad / Lemon Squeezy 連結
+  UNLOCK_CODE: 'SHOUCHAI2026',                           // 買家收到嘅解鎖碼
+  PRO_PRICE: 'HK$128 終身',
+  FREE_BINDERS: 1,
+  FREE_CARDS: 50
+};
+
+/* ===== 卡牌範本 ===== */
+const T = {
+  pkm: { label:'寶可夢', color:'#2F7DE1', example:'例如：收齊甲賀忍蛙', subjectPh:'例如：甲賀忍蛙',
+    fields:[
+      {k:'name',l:'卡名',ph:'例如：甲賀忍蛙 ex'},
+      {k:'set',l:'系列',ph:'擴充包名稱'},
+      {k:'number',l:'編號',ph:'例如：106/167'},
+      {k:'lang',l:'語言',type:'chips',opts:['EN','JP','繁中','簡中','其他']},
+      {k:'rarity',l:'稀有度',ph:'例如：SAR / AR / RR'}
+    ], adv:[], keep:['set','lang'] },
+  op: { label:'One Piece', color:'#E0532F', example:'例如：收齊路飛', subjectPh:'例如：路飛',
+    fields:[
+      {k:'name',l:'卡名',ph:'例如：蒙其·D·路飛'},
+      {k:'set',l:'系列',ph:'補充包名稱'},
+      {k:'number',l:'卡號',ph:'例如：OP01-003'},
+      {k:'lang',l:'語言',type:'chips',opts:['JP','EN','繁中','簡中']},
+      {k:'rarity',l:'稀有度／版本',type:'chips',opts:['L','C','UC','R','SR','SEC','SP','異圖','漫畫圖']}
+    ], adv:[], keep:['set','lang'] },
+  nba: { label:'NBA 球員卡', color:'#7651E0', example:'例如：PC 你最鍾意嘅球員', subjectPh:'例如：球員名',
+    fields:[
+      {k:'name',l:'描述',ph:'例如：Rookie Card'},
+      {k:'year',l:'年份',ph:'例如：2018-19',half:true},
+      {k:'number',l:'卡號',ph:'例如：280',half:true},
+      {k:'set',l:'品牌／系列',ph:'例如：Prizm'},
+      {k:'parallel',l:'平行版',ph:'例如：Silver / Gold'}
+    ],
+    adv:[
+      {k:'serial',l:'限量編號',ph:'例如：23/99'},
+      {k:'auto',l:'簽名',type:'check'},
+      {k:'patch',l:'球衣／Patch',type:'check'},
+      {k:'grader',l:'評級公司',type:'chips',opts:['PSA','BGS','SGC','CGC']},
+      {k:'grade',l:'評級分數',ph:'例如：10'}
+    ], keep:['year','set'] }
+};
+
+/* ===== 儲存 ===== */
+const KEY = 'shouchai_v1';
+function load(){
+  try{ const s = localStorage.getItem(KEY); if(s){ const d = JSON.parse(s); if(d && Array.isArray(d.binders)) return d; } }catch(e){}
+  return { binders:[], pro:false };
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); return true; }
+  catch(e){ toast('儲存空間唔夠：請到設定匯出備份，或刪除部分相片'); return false; }
+}
+let state = load();
+let view = { name:'home' };
+let filter = 'all';
+let draft = null, keepFields = {}, shareFile = null;
+
+/* ===== 工具 ===== */
+const $ = s => document.querySelector(s);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n||0).toLocaleString('en-HK',{maximumFractionDigits:0});
+const curBinder = () => state.binders.find(b => b.id === view.id);
+const totalCards = () => state.binders.reduce((a,b) => a + b.cards.length, 0);
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('on'),2400); }
+function openSheet(html){ $('#sheet').innerHTML = html; $('#ov').classList.add('on'); $('#sheet').scrollTop = 0; }
+function closeSheet(){ $('#ov').classList.remove('on'); }
+
+function stats(b){
+  const owned = b.cards.filter(c => c.owned).length;
+  const want = b.cards.length - owned;
+  const total = b.target || b.cards.length;
+  const pct = total ? Math.min(100, Math.round(owned / total * 100)) : 0;
+  const value = b.cards.filter(c => c.owned).reduce((a,c) => a + (Number(c.price)||0), 0);
+  return { owned, want, total, pct, value };
+}
+function sub(game, c){
+  if(game === 'nba'){
+    return [c.year, c.set, c.parallel, c.serial && '#'+c.serial, c.auto && '簽名', c.patch && 'Patch',
+      c.grader && (c.grader + (c.grade ? ' ' + c.grade : ''))].filter(Boolean).join(' · ');
+  }
+  return [c.number, c.lang, c.rarity].filter(Boolean).join(' · ');
+}
+
+/* ===== 路由 ===== */
+function go(id){ location.hash = id ? '#b/' + id : ''; }
+function route(){
+  const m = location.hash.match(/^#b\/(.+)$/);
+  view = (m && state.binders.some(b => b.id === m[1])) ? { name:'binder', id:m[1] } : { name:'home' };
+  filter = 'all';
+  render(); window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', route);
+
+/* ===== 畫面 ===== */
+function render(){
+  $('#app').innerHTML = view.name === 'binder' ? binderHTML(curBinder()) : homeHTML();
+}
+function homeHTML(){
+  const head = `<div class="top"><div class="logo">收齊佢<small>PC 收藏簿 · 收齊你最愛嘅角色同球員</small></div>
+    <button class="ibtn" onclick="openSettings()" aria-label="設定">⚙︎</button></div>`;
+  if(!state.binders.length){
+    return head + `<div class="hero"><h2>由邊一套開始？</h2>
+      <p class="muted" style="margin:0">揀一個你想收齊嘅角色或者球員，逐張記低，睇住進度一格格填滿。</p>
+      <div class="games">${Object.entries(T).map(([k,t]) => `<button class="gbtn" style="--accent:${t.color}" onclick="openNewBinder('${k}')"><b>${t.label}</b><span>${t.example}</span></button>`).join('')}</div></div>`;
+  }
+  return head + `<div class="blist">${state.binders.map(b => { const t=T[b.game], s=stats(b); return `
+    <button class="btile" style="--accent:${t.color}" onclick="go('${b.id}')">
+      <div class="row"><span class="tag">${t.label}</span><span class="muted sm">${s.owned} / ${s.total} 張</span></div>
+      <div class="bname">${esc(b.subject)}</div>
+      <div class="bar"><i style="width:${s.pct}%"></i></div>
+      <div class="row sm"><b>${s.pct}%</b><span class="muted">${s.value ? '總值 HK$' + fmt(s.value) : ''}</span></div>
+    </button>`; }).join('')}</div>
+    <button class="btn ghost block" style="margin-top:14px" onclick="openNewBinder()">＋ 新收藏簿</button>`;
+}
+function binderHTML(b){
+  const t = T[b.game], s = stats(b);
+  const list = b.cards.filter(c => filter === 'all' || (filter === 'own' ? c.owned : !c.owned));
+  const tab = (k,l,n) => `<button class="${filter===k?'on':''}" onclick="setFilter('${k}')">${l} ${n}</button>`;
+  return `<div style="--accent:${t.color}">
+    <div class="top"><button class="ibtn" onclick="go()" aria-label="返回">‹</button><h1>${esc(b.subject)}</h1>
+      <button class="ibtn" onclick="openEditBinder()" aria-label="收藏簿設定">⋯</button></div>
+    <div class="hero">
+      <div class="row"><span class="tag">${t.label}</span><button class="btn sec sm" onclick="openShare()">分享進度 ↗</button></div>
+      <div class="pct">${s.pct}<small>%</small></div>
+      <div class="bar big"><i style="width:${s.pct}%"></i></div>
+      <div class="stats">
+        <div><b>${s.owned}</b><span>已收</span></div>
+        <div><b>${s.want}</b><span>想要</span></div>
+        <div><b>${b.target || '—'}</b><span>目標</span></div>
+        <div><b>${s.value ? '$' + fmt(s.value) : '—'}</b><span>總值 HK$</span></div>
+      </div>
+    </div>
+    <div class="tabs">${tab('all','全部',b.cards.length)}${tab('own','已有',s.owned)}${tab('want','想要',s.want)}</div>
+    ${list.length ? `<div class="grid">${list.map(c => `
+      <button class="ctile ${c.owned?'':'want'}" onclick="openCard('${c.id}')">
+        <div class="ph">${c.photo ? `<img src="${esc(c.photo)}" alt="" loading="lazy">` : `<span>${esc(c.number || '?')}</span>`}
+          <em class="badge ${c.owned?'ok':''}">${c.owned ? '✓ 已有' : '想要'}</em></div>
+        <div class="cn">${esc(c.name || b.subject)}</div>
+        <div class="cs">${esc(sub(b.game, c))}</div>
+      </button>`).join('')}</div>`
+      : `<div class="empty-grid">${b.cards.length ? '呢個分類未有卡' : '仲未有卡。撳右下角「＋ 加卡」開始，<br>未有嘅卡都可以加做「想要」。'}</div>`}
+    <button class="fab" onclick="openCard()">＋ 加卡</button></div>`;
+}
+function setFilter(k){ filter = k; render(); }
+
+/* ===== 收藏簿 ===== */
+function openNewBinder(game){
+  if(!state.pro && state.binders.length >= CONFIG.FREE_BINDERS) return openPro('免費版只可以開 ' + CONFIG.FREE_BINDERS + ' 本收藏簿。');
+  draft = { game: game || 'pkm' };
+  openSheet(`<h3>新收藏簿</h3>
+    <div class="f"><span>卡牌類型</span><div class="chips" id="gchips">${Object.entries(T).map(([k,t]) => `<button type="button" class="chip ${draft.game===k?'on':''}" onclick="pickGame('${k}')">${t.label}</button>`).join('')}</div></div>
+    <label class="f"><span>你想收齊邊個？</span><input id="bsub" placeholder="${T[draft.game].subjectPh}"></label>
+    <label class="f"><span>目標總數（唔知可以留空，之後再改）</span><input id="btar" inputmode="numeric" placeholder="例如：60"></label>
+    <div class="actions"><button class="btn block" onclick="createBinder()">建立</button><button class="btn sec block" onclick="closeSheet()">取消</button></div>`);
+  setTimeout(() => $('#bsub').focus(), 50);
+}
+function pickGame(k){
+  draft.game = k;
+  document.querySelectorAll('#gchips .chip').forEach((el,i) => el.classList.toggle('on', Object.keys(T)[i] === k));
+  $('#bsub').placeholder = T[k].subjectPh;
+}
+function createBinder(){
+  const subject = $('#bsub').value.trim();
+  if(!subject) return toast('請填寫想收齊嘅角色或者球員');
+  const target = parseInt($('#btar').value, 10) || null;
+  const b = { id: uid(), game: draft.game, subject, target, cards: [], created: Date.now() };
+  state.binders.push(b); save(); closeSheet(); go(b.id);
+}
+function openEditBinder(){
+  const b = curBinder();
+  openSheet(`<h3>收藏簿設定</h3>
+    <label class="f"><span>收藏對象</span><input id="bsub" value="${esc(b.subject)}"></label>
+    <label class="f"><span>目標總數（留空 = 用已加入嘅卡數計）</span><input id="btar" inputmode="numeric" value="${b.target || ''}"></label>
+    <div class="actions"><button class="btn block" onclick="updateBinder()">儲存</button>
+      <button class="btn danger block" onclick="deleteBinder()">刪除成本收藏簿</button></div>`);
+}
+function updateBinder(){
+  const b = curBinder(); const s = $('#bsub').value.trim();
+  if(!s) return toast('收藏對象唔可以留空');
+  b.subject = s; b.target = parseInt($('#btar').value, 10) || null;
+  save(); closeSheet(); render();
+}
+function deleteBinder(){
+  const b = curBinder();
+  if(!confirm(`確定刪除「${b.subject}」同入面 ${b.cards.length} 張卡？刪除後救唔返。`)) return;
+  state.binders = state.binders.filter(x => x.id !== b.id); save(); closeSheet(); go();
+}
+
+/* ===== 卡牌 ===== */
+function fieldHTML(f, d){
+  if(f.type === 'chips') return `<div class="f"><span>${f.l}</span><div class="chips">${f.opts.map(o => `<button type="button" class="chip ${d[f.k]===o?'on':''}" onclick="pickChip(this,'${f.k}','${o}')">${o}</button>`).join('')}</div></div>`;
+  if(f.type === 'check') return `<label class="chk"><input type="checkbox" name="${f.k}" ${d[f.k]?'checked':''}>${f.l}</label>`;
+  return `<label class="f"><span>${f.l}</span><input name="${f.k}" value="${esc(d[f.k] || '')}" placeholder="${esc(f.ph || '')}" autocomplete="off"></label>`;
+}
+function fieldsHTML(list, d){
+  let out = '', i = 0;
+  while(i < list.length){
+    if(list[i].half && list[i+1] && list[i+1].half){ out += `<div class="two">${fieldHTML(list[i],d)}${fieldHTML(list[i+1],d)}</div>`; i += 2; }
+    else { out += fieldHTML(list[i], d); i++; }
+  }
+  return out;
+}
+function openCard(id){
+  const b = curBinder(), t = T[b.game];
+  if(!id && !state.pro && totalCards() >= CONFIG.FREE_CARDS) return openPro('免費版最多記錄 ' + CONFIG.FREE_CARDS + ' 張卡。');
+  const existing = id ? b.cards.find(c => c.id === id) : null;
+  draft = existing ? { ...existing } : { owned: true, ...(keepFields[b.game] || {}) };
+  const advOpen = t.adv.some(f => draft[f.k]);
+  openSheet(`<h3>${existing ? '編輯卡牌' : '加卡'}</h3>
+    <div class="seg" id="seg"><button class="${draft.owned?'on':''}" onclick="setOwned(true)">✓ 已擁有</button><button class="${draft.owned?'':'on'}" onclick="setOwned(false)">想要</button></div>
+    <div class="photo" id="photoBox" onclick="$('#photoIn').click()">${draft.photo ? `<img src="${esc(draft.photo)}" alt="">` : '<span>📷 影相 / 揀相（選填）</span>'}</div>
+    <input type="file" id="photoIn" accept="image/*" hidden onchange="onPhoto(this)">
+    <div id="cform">
+      ${fieldsHTML(t.fields, draft)}
+      ${t.adv.length ? `<details ${advOpen?'open':''}><summary>進階：評級、限量、簽名</summary>${fieldsHTML(t.adv, draft)}</details>` : ''}
+      <label class="f"><span>買入價（HK$，選填）</span><input name="price" inputmode="decimal" value="${draft.price ?? ''}" placeholder="例如：120"></label>
+      <label class="f"><span>備註（選填）</span><input name="notes" value="${esc(draft.notes || '')}" placeholder="例如：喺邊間舖買、品相"></label>
+    </div>
+    <div class="actions">
+      <button class="btn block" onclick="saveCard(false)">儲存</button>
+      ${existing ? `<button class="btn danger block" onclick="deleteCard()">刪除呢張卡</button>` : `<button class="btn sec block" onclick="saveCard(true)">儲存並加下一張</button>`}
+    </div>`);
+}
+function setOwned(v){ draft.owned = v; const bs = document.querySelectorAll('#seg button'); bs[0].classList.toggle('on', v); bs[1].classList.toggle('on', !v); }
+function pickChip(el, k, v){
+  const on = draft[k] !== v; draft[k] = on ? v : '';
+  el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  if(on) el.classList.add('on');
+}
+function readForm(){
+  document.querySelectorAll('#cform [name]').forEach(el => {
+    if(el.type === 'checkbox') draft[el.name] = el.checked;
+    else if(el.name === 'price'){ const n = parseFloat(el.value); draft.price = isNaN(n) ? null : n; }
+    else draft[el.name] = el.value.trim();
+  });
+}
+function saveCard(next){
+  const b = curBinder(), t = T[b.game];
+  readForm();
+  if(!draft.name && !draft.number && !draft.photo) return toast('最少填卡名、編號，或者影張相');
+  if(!draft.id){ draft.id = uid(); draft.added = Date.now(); b.cards.push(draft); }
+  else { const i = b.cards.findIndex(c => c.id === draft.id); b.cards[i] = draft; }
+  const k = { owned: draft.owned }; t.keep.forEach(f => { if(draft[f]) k[f] = draft[f]; });
+  keepFields[b.game] = k;
+  if(!save()) return;
+  render();
+  if(next){ openCard(); setTimeout(() => { const n = document.querySelector('#cform [name=number]'); if(n) n.focus(); }, 60); toast('已儲存，繼續加下一張'); }
+  else closeSheet();
+}
+function deleteCard(){
+  if(!confirm('確定刪除呢張卡？')) return;
+  const b = curBinder(); b.cards = b.cards.filter(c => c.id !== draft.id); save(); closeSheet(); render();
+}
+function onPhoto(inp){
+  const f = inp.files && inp.files[0]; if(!f) return;
+  resize(f, 420).then(url => { draft.photo = url; $('#photoBox').innerHTML = `<img src="${url}" alt="">`; })
+    .catch(() => toast('相片讀取失敗，試吓另一張'));
+}
+function resize(file, max){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const r = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width*r); c.height = Math.round(img.height*r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', .72));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(); };
+    img.src = url;
+  });
+}
+
+/* ===== 分享圖 ===== */
+const FONT = '-apple-system,BlinkMacSystemFont,"PingFang HK","Noto Sans TC",sans-serif';
+function loadImg(src){ return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = src; }); }
+function rr(x, X, Y, w, h, r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r); x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
+function darken(hex, k){ const n = parseInt(hex.slice(1),16); const f = v => Math.round(v*(1-k)); return `rgb(${f(n>>16)},${f((n>>8)&255)},${f(n&255)})`; }
+function fitFont(x, text, maxW, size, weight){ do { x.font = `${weight} ${size}px ${FONT}`; size -= 4; } while(x.measureText(text).width > maxW && size > 30); }
+async function makeShare(b){
+  const W = 1080, H = 1350, t = T[b.game], s = stats(b);
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  const g = x.createLinearGradient(0,0,W,H); g.addColorStop(0,t.color); g.addColorStop(1,darken(t.color,.6));
+  x.fillStyle = g; x.fillRect(0,0,W,H);
+  x.textBaseline = 'alphabetic';
+  x.fillStyle = 'rgba(255,255,255,.8)'; x.font = `600 34px ${FONT}`; x.fillText(`${t.label} · PC 收藏`, 72, 112);
+  const title = `我嘅${b.subject}收藏`; x.fillStyle = '#fff'; fitFont(x, title, W-144, 80, 800); x.fillText(title, 72, 210);
+  x.font = `900 210px ${FONT}`; x.fillText(s.pct + '%', 60, 440);
+  rr(x,72,480,W-144,26,13); x.fillStyle = 'rgba(255,255,255,.25)'; x.fill();
+  if(s.pct > 0){ rr(x,72,480,Math.max(26,(W-144)*s.pct/100),26,13); x.fillStyle = '#fff'; x.fill(); }
+  x.font = `600 40px ${FONT}`; x.fillText(`已收 ${s.owned} / ${s.total} 張`, 72, 572);
+  const owned = b.cards.filter(c => c.owned).slice(-8);
+  const imgs = await Promise.all(owned.map(c => c.photo ? loadImg(c.photo) : null));
+  const cols = 4, gap = 24, tw = (W-144-gap*(cols-1))/cols, th = tw*88/63, top0 = 630;
+  for(let i = 0; i < 8; i++){
+    const X = 72 + (i%cols)*(tw+gap), Y = top0 + Math.floor(i/cols)*(th+gap);
+    rr(x,X,Y,tw,th,14);
+    if(i < owned.length){
+      x.save(); x.clip();
+      const im = imgs[i];
+      if(im){ const r = Math.max(tw/im.width, th/im.height), w = im.width*r, h = im.height*r; x.drawImage(im, X+(tw-w)/2, Y+(th-h)/2, w, h); }
+      else { x.fillStyle = 'rgba(255,255,255,.18)'; x.fillRect(X,Y,tw,th); x.fillStyle = '#fff'; x.textAlign = 'center'; fitFont(x, owned[i].number || owned[i].name || '✓', tw-24, 34, 800); x.fillText(owned[i].number || owned[i].name || '✓', X+tw/2, Y+th/2+12); x.textAlign = 'left'; }
+      x.restore();
+    } else {
+      x.setLineDash([12,10]); x.lineWidth = 3; x.strokeStyle = 'rgba(255,255,255,.4)'; x.stroke(); x.setLineDash([]);
+    }
+  }
+  x.fillStyle = 'rgba(255,255,255,.9)'; x.font = `700 34px ${FONT}`; x.fillText('收齊佢 · PC 收藏簿', 72, H-48);
+  return c;
+}
+async function openShare(){
+  const b = curBinder();
+  if(!b.cards.some(c => c.owned)) return toast('最少加一張「已擁有」嘅卡先可以分享');
+  openSheet('<h3>分享進度</h3><p class="muted">生成緊…</p>');
+  const c = await makeShare(b);
+  const url = c.toDataURL('image/png');
+  shareFile = null;
+  c.toBlob(bl => { shareFile = new File([bl], `shouchai-${b.subject}.png`, { type:'image/png' }); }, 'image/png');
+  openSheet(`<h3>分享進度</h3><img class="shareimg" src="${url}" alt="收藏進度圖">
+    <p class="muted sm" style="margin-top:-4px">iPhone / iPad：長按圖片都可以直接儲存。</p>
+    <div class="actions"><button class="btn block" onclick="doShare()">分享 / 儲存圖片</button><button class="btn sec block" onclick="closeSheet()">完成</button></div>`);
+}
+function doShare(){
+  if(!shareFile) return toast('圖片準備緊，再撳一次');
+  if(navigator.canShare && navigator.canShare({ files:[shareFile] })){
+    navigator.share({ files:[shareFile], title:'我嘅收藏進度' }).catch(() => {});
+  } else download(shareFile, shareFile.name);
+}
+function download(blob, name){
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+/* ===== Pro / 設定 ===== */
+function openPro(reason){
+  openSheet(`<h3>升級 Pro</h3><p style="margin:0">${reason}</p>
+    <ul class="prolist"><li>無限收藏簿：寶可夢、One Piece、NBA 一齊收</li><li>無限卡牌數量</li><li>收藏總值追蹤</li><li>支持獨立開發，繼續加新功能</li></ul>
+    <div class="actions"><a class="btn block" href="${CONFIG.PRO_URL}" target="_blank" rel="noopener">${CONFIG.PRO_PRICE} 升級</a>
+    <button class="btn sec block" onclick="openSettings()">已購買？輸入解鎖碼</button></div>`);
+}
+function openSettings(){
+  const n = state.binders.length, c = totalCards();
+  openSheet(`<h3>設定</h3>
+    <div class="note">${state.pro ? '✓ 已解鎖 Pro，多謝支持！' : `免費版：${n}/${CONFIG.FREE_BINDERS} 本收藏簿 · ${c}/${CONFIG.FREE_CARDS} 張卡`}</div>
+    ${state.pro ? '' : `<label class="f"><span>Pro 解鎖碼</span><input id="ucode" placeholder="購買後收到嘅解鎖碼" autocapitalize="characters"></label>
+      <div class="actions" style="margin-bottom:16px"><button class="btn block" onclick="unlock()">解鎖</button><a class="btn ghost block" href="${CONFIG.PRO_URL}" target="_blank" rel="noopener">未買？${CONFIG.PRO_PRICE}</a></div>`}
+    <div class="note">資料只會儲存喺呢部裝置嘅瀏覽器入面，唔會上傳。換機或者清除瀏覽器資料之前，記得匯出備份。</div>
+    <div class="actions">
+      <button class="btn sec block" onclick="exportData()">匯出備份</button>
+      <button class="btn sec block" onclick="$('#impIn').click()">匯入備份</button>
+      <input type="file" id="impIn" accept="application/json,.json" hidden onchange="importData(this)">
+      <button class="btn danger block" onclick="clearAll()">清除所有資料</button>
+    </div>`);
+}
+function unlock(){
+  const v = ($('#ucode').value || '').trim().toUpperCase();
+  if(v && v === CONFIG.UNLOCK_CODE.toUpperCase()){ state.pro = true; save(); toast('已解鎖 Pro！'); closeSheet(); render(); }
+  else toast('解鎖碼唔啱，請再檢查');
+}
+function exportData(){
+  const d = new Date(), s = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+  download(new Blob([JSON.stringify(state)], { type:'application/json' }), `shouchai-backup-${s}.json`);
+}
+function importData(inp){
+  const f = inp.files && inp.files[0]; if(!f) return;
+  f.text().then(txt => {
+    const d = JSON.parse(txt);
+    if(!d || !Array.isArray(d.binders) || d.binders.some(b => !T[b.game] || !Array.isArray(b.cards))) throw 0;
+    if(!confirm(`匯入 ${d.binders.length} 本收藏簿？目前資料會被取代。`)) return;
+    state = { binders: d.binders, pro: state.pro || !!d.pro }; save(); closeSheet(); go(); render(); toast('已匯入');
+  }).catch(() => toast('備份檔案格式唔啱'));
+}
+function clearAll(){
+  if(!confirm('確定清除所有收藏簿同卡牌？建議先匯出備份。')) return;
+  state = { binders: [], pro: state.pro }; save(); closeSheet(); go(); render();
+}
+
+route();
+</script>
+</body>
+</html>
